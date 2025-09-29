@@ -84,9 +84,11 @@ body {
 
 /* Story Card */
 .story-card {
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: white;
+    background: #34495e;
+    color: #ecf0f1;
     text-align: center;
+    border-radius: 20px;
+    padding: 1rem 1rem;
 }
 
 .story-card h2 {
