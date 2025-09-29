@@ -1,15 +1,16 @@
 /**
  * Neural Detective - Neuron Simulator JavaScript
  * Client-side implementation of the action potential simulation
+ * Version: 2.1 - Fixed Case A parameters (threshold=50mV, stimulus=2mV) for ZERO spikes
  */
 
 class Neuron {
     constructor(params = {}) {
-        this.voltage = params.voltage || -70;
-        this.threshold = params.threshold || -55;
-        this.spikeVoltage = params.spikeVoltage || 30;
-        this.resetVoltage = params.resetVoltage || -70;
-        this.stimulus = params.stimulus || 5;
+        this.voltage = params.voltage ?? -70;
+        this.threshold = params.threshold ?? -55;
+        this.spikeVoltage = params.spikeVoltage ?? 30;
+        this.resetVoltage = params.resetVoltage ?? -70;
+        this.stimulus = params.stimulus ?? 5;
         this.name = params.name || "Unknown";
         
         // Simulation state
@@ -35,6 +36,11 @@ class Neuron {
         
         // Record voltage before potential spike
         this.voltageHistory.push(this.voltage);
+        
+        // Debug logging for first few steps
+        if (timeStep < 5 || this.voltage >= this.threshold) {
+            console.log(`[DEBUG] Step ${timeStep + 1}: voltage=${this.voltage.toFixed(1)}mV, threshold=${this.threshold}mV`);
+        }
         
         // Check for action potential
         if (this.voltage >= this.threshold) {
@@ -67,6 +73,14 @@ class Neuron {
     
     simulate(steps = 20) {
         this.reset();
+        
+        // Debug logging
+        console.log(`[DEBUG] Simulating ${this.name}:`, {
+            voltage: this.voltage,
+            threshold: this.threshold,
+            stimulus: this.stimulus,
+            resetVoltage: this.resetVoltage
+        });
         
         const results = {
             name: this.name,
@@ -111,7 +125,15 @@ class Neuron {
             problemType: 'none'
         };
         
-        if (firingRate === 0) {
+        // Check for specific parameter issues first
+        if (this.resetVoltage > -50) {
+            // Poor reset case - like Case C
+            diagnosis.problem = 'Abnormal Reset Voltage';
+            diagnosis.severity = 'Critical';
+            diagnosis.problemType = 'poor-reset';
+            diagnosis.explanation = 'Reset voltage is too high - neuron fails to properly repolarize after firing, leading to hyperexcitability';
+            diagnosis.recommendation = `Lower reset voltage from ${this.resetVoltage}mV to around -70mV for proper repolarization`;
+        } else if (firingRate === 0) {
             diagnosis.problem = 'No Action Potentials';
             diagnosis.severity = 'Critical';
             diagnosis.problemType = 'no-firing';
@@ -122,6 +144,9 @@ class Neuron {
             } else if (this.stimulus < 3) {
                 diagnosis.explanation = 'Stimulus is too weak to reach threshold';
                 diagnosis.recommendation = `Increase stimulus from ${this.stimulus}mV to around 5-10mV`;
+            } else {
+                diagnosis.explanation = 'Neuron parameters prevent action potential generation';
+                diagnosis.recommendation = 'Check threshold, stimulus, and reset voltage parameters';
             }
         } else if (firingRate > 0.8) {
             diagnosis.problem = 'Hyperexcitability';
@@ -134,6 +159,9 @@ class Neuron {
             } else if (this.resetVoltage > -60) {
                 diagnosis.explanation = 'Reset voltage is too high - neuron stays near threshold';
                 diagnosis.recommendation = `Lower reset voltage from ${this.resetVoltage}mV to around -70mV`;
+            } else {
+                diagnosis.explanation = 'Neuron fires excessively due to parameter imbalance';
+                diagnosis.recommendation = 'Adjust threshold or reset voltage to reduce excitability';
             }
         } else if (firingRate < 0.2 && firingRate > 0) {
             diagnosis.problem = 'Hypoexcitability';
@@ -142,12 +170,14 @@ class Neuron {
             diagnosis.explanation = 'Neuron fires but less frequently than normal';
             
             if (this.stimulus < 5) {
-                diagnosis.recommendation = `Consider increasing stimulus from ${this.stimulus}mV`;
+                diagnosis.recommendation = `Increase stimulus from ${this.stimulus}mV to around 5-8mV`;
+            } else {
+                diagnosis.recommendation = 'Consider lowering threshold or increasing stimulus strength';
             }
         } else {
             diagnosis.problem = 'Normal Function';
-            diagnosis.explanation = 'Neuron shows healthy firing patterns';
-            diagnosis.recommendation = 'No adjustments needed';
+            diagnosis.explanation = 'Neuron shows healthy firing patterns with appropriate frequency';
+            diagnosis.recommendation = 'No adjustments needed - parameters are within normal range';
             diagnosis.problemType = 'normal';
         }
         
@@ -169,10 +199,10 @@ const CASE_CONFIGS = {
         description: 'High Threshold Neuron - A patient presenting with complete loss of reflexes',
         parameters: {
             voltage: -70,
-            threshold: -20,
+            threshold: 0,
             spikeVoltage: 30,
             resetVoltage: -70,
-            stimulus: 5
+            stimulus: 2
         },
         expectedProblem: 'No Action Potentials',
         biologicalContext: 'This could represent a neurological condition where sodium channels are blocked or the threshold for depolarization is pathologically high',

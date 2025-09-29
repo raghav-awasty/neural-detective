@@ -3,10 +3,10 @@
   "description": "High Threshold Neuron - A patient presenting with complete loss of reflexes",
   "parameters": {
     "voltage": -70,
-    "threshold": -20,
+    "threshold": 0,
     "spike_voltage": 30,
     "reset_voltage": -70,
-    "stimulus": 5
+    "stimulus": 2
   },
   "expected_problem": "No Action Potentials",
   "biological_context": "This could represent a neurological condition where sodium channels are blocked or the threshold for depolarization is pathologically high",
