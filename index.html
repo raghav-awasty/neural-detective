@@ -3,64 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural Detective - Action Potential Treatment Laboratory</title>
-    <meta http-equiv="refresh" content="0; url=./src/">
-    <link rel="canonical" href="./src/">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .redirect-message {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .redirect-message h1 {
-            margin-bottom: 1rem;
-            font-size: 2rem;
-        }
-        .redirect-message p {
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-        }
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: background 0.3s ease;
-        }
-        .btn:hover {
-            background: #2980b9;
-        }
-    </style>
+    <title>⚡️ Neural Detective - Action Potential Simulator</title>
+    <link rel="stylesheet" href="./public/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </head>
 <body>
-    <div class="redirect-message">
-        <h1>🧠⚡ Neural Detective</h1>
-        <p>Redirecting to Action Potential Treatment Laboratory...</p>
-        <p>If you're not redirected automatically, click below:</p>
-        <a href="./src/" class="btn">Launch Neural Detective</a>
-    </div>
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-brain"></i> Neural Detective</h1>
+            <p class="subtitle">Investigate the Broken Circuit - Action Potential Simulator</p>
+        </div>
+    </header>
 
-    <script>
-        // Backup redirect in case meta refresh fails
-        setTimeout(() => {
-            window.location.href = './src/';
-        }, 1000);
-    </script>
+    <main class="main">
+        <div class="container">
+            <!-- Activity Introduction -->
+            <section class="intro-section">
+                <div class="story-card">
+                    <h2><i class="fas fa-user-md"></i> The Investigation</h2>
+                    <p>You are neuroscientists investigating a patient with abnormal reflexes. The patient's neurons may be <strong>"malfunctioning"</strong> because of incorrect thresholds, faulty resets, or weak stimuli.</p>
+                    <p>Your task: <strong>simulate these neurons and diagnose what's wrong with them.</strong></p>
+                </div>
+            </section>
+
+            <!-- Control Panel -->
+            <section class="control-panel">
+                <div class="panel-card">
+                    <h3><i class="fas fa-sliders-h"></i> Investigation Controls</h3>
+                    
+                    <div class="controls-grid">
+                        <div class="control-group">
+                            <label for="caseSelect">🔍 Select Patient Case:</label>
+                            <select id="caseSelect" class="case-select">
+                                <option value="">Choose a case to investigate...</option>
+                                <option value="Case A">Case A - Mystery Patient #1</option>
+                                <option value="Case B">Case B - Mystery Patient #2</option>
+                                <option value="Case C">Case C - Mystery Patient #3</option>
+                                <option value="Case D">Case D - Mystery Patient #4</option>
+                                <option value="Normal">Normal - Healthy Comparison</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="timeSteps">⏱️ Simulation Time Steps:</label>
+                            <input type="range" id="timeSteps" min="10" max="50" value="20" class="slider">
+                            <span id="timeStepsValue" class="slider-value">20</span>
+                        </div>
+
+                        <div class="control-group">
+                            <button id="runSimulation" class="btn btn-primary">
+                                <i class="fas fa-play"></i> Run Investigation
+                            </button>
+                            <button id="resetSimulation" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Case Information Display -->
+            <section class="case-info" id="caseInfo" style="display: none;">
+                <div class="info-card">
+                    <h3><i class="fas fa-file-medical"></i> Patient File</h3>
+                    <div id="caseDetails" class="case-details">
+                        <!-- Case information will be populated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Simulation Results -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-grid">
+                    <!-- Voltage Chart -->
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-line"></i> Membrane Voltage Over Time</h3>
+                        <div class="chart-container">
+                            <canvas id="voltageChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Spike Analysis -->
+                    <div class="analysis-card">
+                        <h3><i class="fas fa-bolt"></i> Spike Analysis</h3>
+                        <div id="spikeAnalysis" class="spike-data">
+                            <!-- Spike analysis will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Log -->
+                <div class="log-card">
+                    <h3><i class="fas fa-clipboard-list"></i> Detailed Simulation Log</h3>
+                    <div id="simulationLog" class="simulation-log">
+                        <!-- Simulation log will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Diagnosis Section -->
+                <div class="diagnosis-card" id="diagnosisCard" style="display: none;">
+                    <h3><i class="fas fa-stethoscope"></i> Your Diagnosis</h3>
+                    <div id="diagnosisContent" class="diagnosis-content">
+                        <!-- Diagnosis will be populated here -->
+                    </div>
+                    <button id="showDiagnosis" class="btn btn-success">
+                        <i class="fas fa-search"></i> Reveal Diagnosis
+                    </button>
+                </div>
+            </section>
+
+
+            <!-- Student Tasks -->
+            <section class="tasks-section">
+                <div class="tasks-card">
+                    <h3><i class="fas fa-tasks"></i> Your Investigation Tasks</h3>
+                    <div class="task-list">
+                        <div class="task-item">
+                            <span class="task-number">1</span>
+                            <span class="task-text">Run the simulation with each case (A, B, C, D)</span>
+                        </div>
+                        <div class="task-item">
+                            <span class="task-number">2</span>
+                            <span class="task-text">Observe the firing behavior: Too often? Never fires? Fails to reset?</span>
+                        </div>
+                        <div class="task-item">
+                            <span class="task-number">3</span>
+                            <span class="task-text">Diagnose the fault: Which parameter is causing the problem?</span>
+                        </div>
+                        <div class="task-item">
+                            <span class="task-number">4</span>
+                            <span class="task-text">Suggest a fix: What parameter value would create "normal" behavior?</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Treatment Section -->
+            <section class="treatment-section" id="treatmentSection" style="display: none;">
+                <div class="treatment-card">
+                    <h3><i class="fas fa-tools"></i> Treatment Laboratory</h3>
+                    <p class="treatment-description">Adjust the neuron parameters to fix the patient's condition. Use the diagnosis recommendations as guidance.</p>
+                    
+                    <div class="treatment-controls">
+                        <div class="treatment-grid">
+                            <div class="parameter-control">
+                                <label for="thresholdSlider">⚡ Threshold Voltage (mV):</label>
+                                <input type="range" id="thresholdSlider" min="-100" max="20" value="-55" step="5" class="param-slider">
+                                <span id="thresholdValue" class="param-value">-55</span>
+                                <div class="param-range">Normal: -60mV to -50mV</div>
+                            </div>
+                            
+                            <div class="parameter-control">
+                                <label for="resetSlider">🔄 Reset Voltage (mV):</label>
+                                <input type="range" id="resetSlider" min="-90" max="-40" value="-70" step="5" class="param-slider">
+                                <span id="resetValue" class="param-value">-70</span>
+                                <div class="param-range">Normal: -75mV to -65mV</div>
+                            </div>
+                            
+                            <div class="parameter-control">
+                                <label for="stimulusSlider">📈 Stimulus Strength (mV):</label>
+                                <input type="range" id="stimulusSlider" min="1" max="10" value="5" step="0.5" class="param-slider">
+                                <span id="stimulusValue" class="param-value">5</span>
+                                <div class="param-range">Normal: 4mV to 6mV</div>
+                            </div>
+                        </div>
+                        
+                        <div class="treatment-actions">
+                            <button id="applyTreatment" class="btn btn-success">
+                                <i class="fas fa-flask"></i> Apply Treatment
+                            </button>
+                            <button id="resetTreatment" class="btn btn-secondary">
+                                <i class="fas fa-undo"></i> Reset to Original
+                            </button>
+                        </div>
+                        
+                        <div id="treatmentFeedback" class="treatment-feedback" style="display: none;">
+                            <!-- Treatment effectiveness feedback will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Expected Patterns Guide -->
+            <section class="patterns-section">
+                <div class="patterns-card">
+                    <h3><i class="fas fa-lightbulb"></i> Investigation Clues</h3>
+                    <div class="patterns-grid">
+                        <div class="pattern-item">
+                            <div class="pattern-header">Case Type: High Threshold</div>
+                            <div class="pattern-description">Voltage rises but never crosses threshold → 0 spikes</div>
+                        </div>
+                        <div class="pattern-item">
+                            <div class="pattern-header">Case Type: Low Threshold</div>
+                            <div class="pattern-description">Fires almost every step → "Spike!" at every time step</div>
+                        </div>
+                        <div class="pattern-item">
+                            <div class="pattern-header">Case Type: Bad Reset</div>
+                            <div class="pattern-description">Fires once, then fails to return to resting → abnormal pattern</div>
+                        </div>
+                        <div class="pattern-item">
+                            <div class="pattern-header">Case Type: Weak Stimulus</div>
+                            <div class="pattern-description">Voltage climbs slowly → maybe 1 spike in many steps</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="./public/js/neuron-simulator.js"></script>
+    <script src="./public/js/treatment-lab.js"></script>
 </body>
 </html>
