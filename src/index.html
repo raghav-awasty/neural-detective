@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡️ Neural Detective - Action Potential Simulator</title>
+    <link rel="stylesheet" href="../public/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-brain"></i> Neural Detective</h1>
+            <p class="subtitle">Investigate the Broken Circuit - Action Potential Simulator</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Activity Introduction -->
+            <section class="intro-section">
+                <div class="story-card">
+                    <h2><i class="fas fa-user-md"></i> 🧾 The Investigation</h2>
+                    <p>You are neuroscientists investigating a patient with abnormal reflexes. The patient's neurons may be <strong>"malfunctioning"</strong> because of incorrect thresholds, faulty resets, or weak stimuli.</p>
+                    <p>Your task: <strong>simulate these neurons and diagnose what's wrong with them.</strong></p>
+                </div>
+            </section>
+
+            <!-- Control Panel -->
+            <section class="control-panel">
+                <div class="panel-card">
+                    <h3><i class="fas fa-sliders-h"></i> Investigation Controls</h3>
+                    
+                    <div class="controls-grid">
+                        <div class="control-group">
+                            <label for="caseSelect">🔍 Select Patient Case:</label>
+                            <select id="caseSelect" class="case-select">
+                                <option value="">Choose a case to investigate...</option>
+                                <option value="Case A">Case A - Mystery Patient #1</option>
+                                <option value="Case B">Case B - Mystery Patient #2</option>
+                                <option value="Case C">Case C - Mystery Patient #3</option>
+                                <option value="Case D">Case D - Mystery Patient #4</option>
+                                <option value="Normal">Normal - Healthy Comparison</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="timeSteps">⏱️ Simulation Time Steps:</label>
+                            <input type="range" id="timeSteps" min="10" max="50" value="20" class="slider">
+                            <span id="timeStepsValue" class="slider-value">20</span>
+                        </div>
+
+                        <div class="control-group">
+                            <button id="runSimulation" class="btn btn-primary">
+                                <i class="fas fa-play"></i> Run Investigation
+                            </button>
+                            <button id="resetSimulation" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Case Information Display -->
+            <section class="case-info" id="caseInfo" style="display: none;">
+                <div class="info-card">
+                    <h3><i class="fas fa-file-medical"></i> Patient File</h3>
+                    <div id="caseDetails" class="case-details">
+                        <!-- Case information will be populated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Simulation Results -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-grid">
+                    <!-- Voltage Chart -->
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-line"></i> Membrane Voltage Over Time</h3>
+                        <div class="chart-container">
+                            <canvas id="voltageChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Spike Analysis -->
+                    <div class="analysis-card">
+                        <h3><i class="fas fa-bolt"></i> Spike Analysis</h3>
+                        <div id="spikeAnalysis" class="spike-data">
+                            <!-- Spike analysis will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Log -->
+                <div class="log-card">
+                    <h3><i class="fas fa-clipboard-list"></i> Detailed Simulation Log</h3>
+                    <div id="simulationLog" class="simulation-log">
+                        <!-- Simulation log will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Diagnosis Section -->
+                <div class="diagnosis-card" id="diagnosisCard" style="display: none;">
+                    <h3><i class="fas fa-stethoscope"></i> 🕵️ Your Diagnosis</h3>
+                    <div id="diagnosisContent" class="diagnosis-content">
+                        <!-- Diagnosis will be populated here -->
+                    </div>
+                    <button id="showDiagnosis" class="btn btn-success">
+                        <i class="fas fa-search"></i> Reveal Diagnosis
+                    </button>
+                </div>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section class="learning-section">
+                <div class="learning-card">
+                    <h3><i class="fas fa-graduation-cap"></i> 🎯 Learning Objectives</h3>
+                    <div class="objectives-grid">
+                        <div class="objective">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Understand how thresholds affect firing behavior</span>
+                        </div>
+                        <div class="objective">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Simulate neuron voltage changes over time</span>
+                        </div>
+                        <div class="objective">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Diagnose abnormal firing patterns</span>
+                        </div>
+                        <div class="objective">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Practice debugging and parameter testing</span>
+                        </div>
+                        <div class="objective">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Connect biological malfunction to computational logic</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Student Tasks -->
+            <section class="tasks-section">
+                <div class="tasks-card">
+                    <h3><i class="fas fa-tasks"></i> 🕵️ Your Investigation Tasks</h3>
+                    <div class="task-list">
+                        <div class="task-item">
+                            <span class="task-number">1</span>
+                            <span class="task-text">Run the simulation with each case (A, B, C, D)</span>
+                        </div>
+                        <div class="task-item">
+                            <span class="task-number">2</span>
+                            <span class="task-text">Observe the firing behavior: Too often? Never fires? Fails to reset?</span>
+                        </div>
+                        <div class="task-item">
+                            <span class="task-number">3</span>
+                            <span class="task-text">Diagnose the fault: Which parameter is causing the problem?</span>
+                        </div>
+                        <div class="task-item">
+                            <span class="task-number">4</span>
+                            <span class="task-text">Suggest a fix: What parameter value would create "normal" behavior?</span>
+                        </div>
+                        <div class="task-item">
+                            <span class="task-number">5</span>
+                            <span class="task-text">Bonus: Design your own faulty neuron and let others diagnose it!</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Expected Patterns Guide -->
+            <section class="patterns-section">
+                <div class="patterns-card">
+                    <h3><i class="fas fa-lightbulb"></i> ✅ Investigation Clues</h3>
+                    <div class="patterns-grid">
+                        <div class="pattern-item">
+                            <div class="pattern-header">Case Type: High Threshold</div>
+                            <div class="pattern-description">Voltage rises but never crosses threshold → 0 spikes</div>
+                        </div>
+                        <div class="pattern-item">
+                            <div class="pattern-header">Case Type: Low Threshold</div>
+                            <div class="pattern-description">Fires almost every step → "Spike!" at every time step</div>
+                        </div>
+                        <div class="pattern-item">
+                            <div class="pattern-header">Case Type: Bad Reset</div>
+                            <div class="pattern-description">Fires once, then fails to return to resting → abnormal pattern</div>
+                        </div>
+                        <div class="pattern-item">
+                            <div class="pattern-header">Case Type: Weak Stimulus</div>
+                            <div class="pattern-description">Voltage climbs slowly → maybe 1 spike in many steps</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Neural Detective Activity | Biology & Computer Science Collaboration</p>
+        </div>
+    </footer>
+
+    <script src="../public/js/neuron-simulator.js"></script>
+    <script src="../public/js/app.js"></script>
+</body>
+</html>

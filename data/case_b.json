@@ -1,0 +1,14 @@
+{
+  "name": "Case B",
+  "description": "Hyperexcitable Neuron - A patient with seizure-like hyperactivity",
+  "parameters": {
+    "voltage": -70,
+    "threshold": -80,
+    "spike_voltage": 30,
+    "reset_voltage": -70,
+    "stimulus": 5
+  },
+  "expected_problem": "Hyperexcitability",
+  "biological_context": "This could represent conditions like epilepsy where neurons fire too easily due to altered ion channel properties or neurotransmitter imbalances",
+  "learning_objective": "Learn how overly sensitive neurons can lead to pathological conditions"
+}

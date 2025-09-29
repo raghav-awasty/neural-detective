@@ -1,0 +1,14 @@
+{
+  "name": "Case C",
+  "description": "Poor Reset Neuron - A patient with abnormal refractory periods",
+  "parameters": {
+    "voltage": -70,
+    "threshold": -55,
+    "spike_voltage": 30,
+    "reset_voltage": -40,
+    "stimulus": 5
+  },
+  "expected_problem": "Abnormal Reset",
+  "biological_context": "This could represent dysfunction in potassium channels that are responsible for repolarization, leading to prolonged depolarization",
+  "learning_objective": "Understand the importance of proper repolarization in normal neuronal function"
+}

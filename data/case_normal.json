@@ -1,0 +1,14 @@
+{
+  "name": "Normal",
+  "description": "Healthy Neuron - Normal physiological parameters for comparison",
+  "parameters": {
+    "voltage": -70,
+    "threshold": -55,
+    "spike_voltage": 30,
+    "reset_voltage": -70,
+    "stimulus": 5
+  },
+  "expected_problem": "Normal Function",
+  "biological_context": "This represents a healthy neuron with typical resting potential, threshold, and response characteristics",
+  "learning_objective": "Establish baseline understanding of normal neuronal behavior for comparison with pathological cases"
+}

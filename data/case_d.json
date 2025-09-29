@@ -1,0 +1,14 @@
+{
+  "name": "Case D",
+  "description": "Weak Input Neuron - A patient with reduced sensory responses",
+  "parameters": {
+    "voltage": -70,
+    "threshold": -55,
+    "spike_voltage": 30,
+    "reset_voltage": -70,
+    "stimulus": 2
+  },
+  "expected_problem": "Hypoexcitability",
+  "biological_context": "This could represent conditions where synaptic transmission is impaired, leading to weak or insufficient stimulation of neurons",
+  "learning_objective": "Learn how stimulus strength affects the likelihood of action potential generation"
+}
