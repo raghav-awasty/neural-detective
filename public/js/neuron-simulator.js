@@ -132,7 +132,7 @@ class Neuron {
             diagnosis.severity = 'Critical';
             diagnosis.problemType = 'poor-reset';
             diagnosis.explanation = 'Reset voltage is too high - neuron fails to properly repolarize after firing, leading to hyperexcitability';
-            diagnosis.recommendation = `Lower reset voltage from ${this.resetVoltage}mV to around -70mV for proper repolarization`;
+            diagnosis.recommendation = `Lower reset voltage from ${this.resetVoltage}mV to normal range (-75mV to -65mV). Try setting it to -70mV in the Treatment Laboratory for proper repolarization.`;
         } else if (firingRate === 0) {
             diagnosis.problem = 'No Action Potentials';
             diagnosis.severity = 'Critical';
@@ -140,13 +140,13 @@ class Neuron {
             
             if (this.threshold > -40) {
                 diagnosis.explanation = 'Threshold voltage is too high - neuron cannot reach firing threshold';
-                diagnosis.recommendation = `Lower threshold from ${this.threshold}mV to around -55mV`;
+                diagnosis.recommendation = `Lower threshold from ${this.threshold}mV to normal range (-60mV to -50mV). Try setting it to -55mV in the Treatment Laboratory.`;
             } else if (this.stimulus < 3) {
                 diagnosis.explanation = 'Stimulus is too weak to reach threshold';
-                diagnosis.recommendation = `Increase stimulus from ${this.stimulus}mV to around 5-10mV`;
+                diagnosis.recommendation = `Increase stimulus from ${this.stimulus}mV to normal range (4-6mV). Try setting it to 5mV in the Treatment Laboratory.`;
             } else {
                 diagnosis.explanation = 'Neuron parameters prevent action potential generation';
-                diagnosis.recommendation = 'Check threshold, stimulus, and reset voltage parameters';
+                diagnosis.recommendation = 'Use the Treatment Laboratory to adjust: Threshold (-60 to -50mV), Stimulus (4-6mV), Reset Voltage (-75 to -65mV)';
             }
         } else if (firingRate > 0.8) {
             diagnosis.problem = 'Hyperexcitability';
@@ -155,13 +155,13 @@ class Neuron {
             
             if (this.threshold < -75) {
                 diagnosis.explanation = 'Threshold voltage is too low - neuron fires too easily';
-                diagnosis.recommendation = `Raise threshold from ${this.threshold}mV to around -55mV`;
+                diagnosis.recommendation = `Raise threshold from ${this.threshold}mV to normal range (-60mV to -50mV). Try setting it to -55mV in the Treatment Laboratory.`;
             } else if (this.resetVoltage > -60) {
                 diagnosis.explanation = 'Reset voltage is too high - neuron stays near threshold';
-                diagnosis.recommendation = `Lower reset voltage from ${this.resetVoltage}mV to around -70mV`;
+                diagnosis.recommendation = `Lower reset voltage from ${this.resetVoltage}mV to normal range (-75mV to -65mV). Try setting it to -70mV in the Treatment Laboratory.`;
             } else {
                 diagnosis.explanation = 'Neuron fires excessively due to parameter imbalance';
-                diagnosis.recommendation = 'Adjust threshold or reset voltage to reduce excitability';
+                diagnosis.recommendation = 'Use the Treatment Laboratory: Raise threshold (-60 to -50mV) and/or lower reset voltage (-75 to -65mV)';
             }
         } else if (firingRate < 0.2 && firingRate > 0) {
             diagnosis.problem = 'Hypoexcitability';
@@ -170,9 +170,9 @@ class Neuron {
             diagnosis.explanation = 'Neuron fires but less frequently than normal';
             
             if (this.stimulus < 5) {
-                diagnosis.recommendation = `Increase stimulus from ${this.stimulus}mV to around 5-8mV`;
+                diagnosis.recommendation = `Increase stimulus from ${this.stimulus}mV to normal range (4-6mV). Try setting it to 5mV in the Treatment Laboratory.`;
             } else {
-                diagnosis.recommendation = 'Consider lowering threshold or increasing stimulus strength';
+                diagnosis.recommendation = 'Use the Treatment Laboratory to lower threshold (-60 to -50mV) or increase stimulus strength (4-6mV)';
             }
         } else {
             diagnosis.problem = 'Normal Function';

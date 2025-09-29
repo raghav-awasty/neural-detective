@@ -1,6 +1,7 @@
 /**
- * Neural Detective - Main Application JavaScript
- * Handles UI interactions and coordinates the simulation
+ * Neural Detective - Treatment Laboratory JavaScript
+ * Handles diagnosis, treatment parameter adjustment, and effectiveness evaluation
+ * Complete investigate → diagnose → treat workflow for neurological case studies
  */
 
 class NeuralDetectiveApp {
@@ -32,6 +33,21 @@ class NeuralDetectiveApp {
         this.diagnosisContent = document.getElementById('diagnosisContent');
         
         this.voltageChartCanvas = document.getElementById('voltageChart');
+        
+        // Treatment laboratory elements
+        this.treatmentSection = document.getElementById('treatmentSection');
+        this.thresholdSlider = document.getElementById('thresholdSlider');
+        this.thresholdValue = document.getElementById('thresholdValue');
+        this.resetSlider = document.getElementById('resetSlider');
+        this.resetValue = document.getElementById('resetValue');
+        this.stimulusSlider = document.getElementById('stimulusSlider');
+        this.stimulusValue = document.getElementById('stimulusValue');
+        this.applyTreatmentButton = document.getElementById('applyTreatment');
+        this.resetTreatmentButton = document.getElementById('resetTreatment');
+        this.treatmentFeedback = document.getElementById('treatmentFeedback');
+        
+        // Store original case parameters for reset functionality
+        this.originalParameters = null;
     }
     
     attachEventListeners() {
@@ -47,6 +63,22 @@ class NeuralDetectiveApp {
         this.runButton.addEventListener('click', () => this.runSimulation());
         this.resetButton.addEventListener('click', () => this.resetSimulation());
         this.showDiagnosisButton.addEventListener('click', () => this.showDiagnosis());
+        
+        // Treatment laboratory controls
+        this.thresholdSlider.addEventListener('input', (e) => {
+            this.thresholdValue.textContent = e.target.value;
+        });
+        
+        this.resetSlider.addEventListener('input', (e) => {
+            this.resetValue.textContent = e.target.value;
+        });
+        
+        this.stimulusSlider.addEventListener('input', (e) => {
+            this.stimulusValue.textContent = e.target.value;
+        });
+        
+        this.applyTreatmentButton.addEventListener('click', () => this.applyTreatment());
+        this.resetTreatmentButton.addEventListener('click', () => this.resetTreatment());
     }
     
     initializeChart() {
@@ -240,6 +272,12 @@ class NeuralDetectiveApp {
             this.displayCaseInfo(caseConfig);
             this.caseInfo.style.display = 'block';
             this.caseInfo.classList.add('fade-in-up');
+            
+            // Store original parameters and set up treatment laboratory
+            this.originalParameters = { ...caseConfig.parameters };
+            this.setupTreatmentLaboratory(caseConfig.parameters);
+            this.treatmentSection.style.display = 'block';
+            this.treatmentSection.classList.add('fade-in-up');
         }
     }
     
@@ -436,10 +474,205 @@ class NeuralDetectiveApp {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
+    setupTreatmentLaboratory(parameters) {
+        // Set sliders to original case parameters
+        this.thresholdSlider.value = parameters.threshold;
+        this.thresholdValue.textContent = parameters.threshold;
+        
+        this.resetSlider.value = parameters.resetVoltage;
+        this.resetValue.textContent = parameters.resetVoltage;
+        
+        this.stimulusSlider.value = parameters.stimulus;
+        this.stimulusValue.textContent = parameters.stimulus;
+        
+        // Hide feedback initially
+        this.treatmentFeedback.style.display = 'none';
+    }
+    
+    applyTreatment() {
+        if (!this.currentCase) {
+            console.error('No current case selected');
+            return;
+        }
+        
+        const steps = parseInt(this.timeStepsSlider.value);
+        
+        // Check if all slider elements exist
+        if (!this.thresholdSlider || !this.resetSlider || !this.stimulusSlider) {
+            console.error('Treatment sliders not found:', {
+                thresholdSlider: !!this.thresholdSlider,
+                resetSlider: !!this.resetSlider,
+                stimulusSlider: !!this.stimulusSlider
+            });
+            alert('Treatment controls not initialized properly. Please refresh the page.');
+            return;
+        }
+        
+        // Get adjusted parameters from sliders (voltage fixed at -70mV)
+        const adjustedParameters = {
+            voltage: -70, // Fixed resting potential - not clinically adjustable
+            threshold: parseFloat(this.thresholdSlider.value),
+            resetVoltage: parseFloat(this.resetSlider.value),
+            stimulus: parseFloat(this.stimulusSlider.value)
+        };
+        
+        console.log('Applying treatment with parameters:', adjustedParameters);
+        
+        // Validate parameters
+        if (isNaN(adjustedParameters.threshold) || 
+            isNaN(adjustedParameters.resetVoltage) || isNaN(adjustedParameters.stimulus)) {
+            console.error('Invalid parameters detected:', adjustedParameters);
+            alert('Invalid parameter values detected. Please check the sliders.');
+            return;
+        }
+        
+        try {
+            // Create neuron with adjusted parameters
+            console.log('Creating adjusted neuron with:', {
+                ...adjustedParameters,
+                spikeVoltage: 30,
+                name: `${this.currentCase} (Treated)`
+            });
+            
+            const adjustedNeuron = new NeuralDetective.Neuron({
+                ...adjustedParameters,
+                spikeVoltage: 30,
+                name: `${this.currentCase} (Treated)`
+            });
+            
+            console.log('Neuron created successfully, running simulation...');
+            
+            // Run simulation with adjusted parameters
+            const treatmentResults = adjustedNeuron.simulate(steps);
+            
+            console.log('Simulation completed:', treatmentResults);
+            
+            // Update UI with treatment results
+            this.displayResults(treatmentResults);
+            this.updateChart(treatmentResults);
+            this.displaySimulationLog(treatmentResults.simulationLog);
+            
+            // Analyze treatment effectiveness
+            this.analyzeTreatmentEffectiveness(adjustedParameters, treatmentResults);
+            
+            // Show results section
+            this.resultsSection.style.display = 'block';
+            this.resultsSection.classList.add('fade-in-up');
+            
+            // Hide original diagnosis, show new treatment results
+            this.diagnosisCard.style.display = 'none';
+            
+            // Scroll to results
+            this.resultsSection.scrollIntoView({ behavior: 'smooth' });
+            
+        } catch (error) {
+            console.error('Treatment simulation error:', error);
+            alert('An error occurred during treatment simulation. Please try again.');
+        }
+    }
+    
+    resetTreatment() {
+        if (!this.originalParameters) {
+            return;
+        }
+        
+        // Reset sliders to original parameters
+        this.setupTreatmentLaboratory(this.originalParameters);
+        
+        // Clear any treatment feedback
+        this.treatmentFeedback.style.display = 'none';
+    }
+    
+    analyzeTreatmentEffectiveness(adjustedParams, results) {
+        const firingRate = results.firingRate;
+        const normalRanges = {
+            threshold: { min: -60, max: -50 },
+            resetVoltage: { min: -75, max: -65 },
+            stimulus: { min: 4, max: 6 }
+        };
+        
+        // Calculate how many adjustable parameters are in normal range
+        let parametersInRange = 0;
+        const parameterAnalysis = [];
+        
+        // Only analyze the 3 clinically adjustable parameters
+        const adjustableParams = {
+            threshold: adjustedParams.threshold,
+            resetVoltage: adjustedParams.resetVoltage,
+            stimulus: adjustedParams.stimulus
+        };
+        
+        for (const [param, value] of Object.entries(adjustableParams)) {
+            const range = normalRanges[param];
+            if (range && value >= range.min && value <= range.max) {
+                parametersInRange++;
+                parameterAnalysis.push({ param, status: 'normal', value });
+            } else {
+                parameterAnalysis.push({ param, status: 'abnormal', value, range });
+            }
+        }
+        
+        // Determine overall treatment effectiveness (3 adjustable parameters)
+        let effectiveness, feedbackClass, icon;
+        if (firingRate >= 0.15 && firingRate <= 0.4 && parametersInRange === 3) {
+            effectiveness = 'Excellent Treatment!';
+            feedbackClass = 'success';
+            icon = '✅';
+        } else if (firingRate >= 0.1 && firingRate <= 0.6 && parametersInRange >= 2) {
+            effectiveness = 'Good Treatment';
+            feedbackClass = 'warning';
+            icon = '⚠️';
+        } else {
+            effectiveness = 'Treatment Needs Adjustment';
+            feedbackClass = 'error';
+            icon = '❌';
+        }
+        
+        // Display feedback
+        this.displayTreatmentFeedback(effectiveness, feedbackClass, icon, results, parameterAnalysis);
+    }
+    
+    displayTreatmentFeedback(effectiveness, feedbackClass, icon, results, parameterAnalysis) {
+        const firingRate = (results.firingRate * 100).toFixed(1);
+        
+        this.treatmentFeedback.className = `treatment-feedback ${feedbackClass}`;
+        this.treatmentFeedback.innerHTML = `
+            <h4>${icon} ${effectiveness}</h4>
+            <div class="feedback-content">
+                <p>Your treatment resulted in a firing rate of <strong>${firingRate}%</strong> 
+                   (${results.spikes} spikes in ${results.steps} steps).</p>
+                
+                <div class="feedback-metrics">
+                    <div class="feedback-metric">
+                        <div class="metric-label">Firing Rate</div>
+                        <div class="metric-value">${firingRate}%</div>
+                    </div>
+                    <div class="feedback-metric">
+                        <div class="metric-label">Total Spikes</div>
+                        <div class="metric-value">${results.spikes}</div>
+                    </div>
+                    <div class="feedback-metric">
+                        <div class="metric-label">Parameters Fixed</div>
+                        <div class="metric-value">${parameterAnalysis.filter(p => p.status === 'normal').length}/3</div>
+                    </div>
+                </div>
+                
+                ${feedbackClass === 'success' ? 
+                    '<p><strong>🎉 Great job!</strong> You\'ve successfully restored normal neuronal function!</p>' :
+                    '<p><strong>💡 Tip:</strong> Try adjusting parameters closer to the normal ranges shown below each slider.</p>'
+                }
+            </div>
+        `;
+        
+        this.treatmentFeedback.style.display = 'block';
+        this.treatmentFeedback.classList.add('fade-in-up');
+    }
+    
     hideElements() {
         this.caseInfo.style.display = 'none';
         this.resultsSection.style.display = 'none';
         this.diagnosisCard.style.display = 'none';
+        this.treatmentSection.style.display = 'none';
     }
 }
 

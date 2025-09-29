@@ -480,6 +480,7 @@ body {
 .diagnosis-card h3,
 .tasks-card h3,
 .patterns-card h3,
+.treatment-card h3,
 .panel-card h3 {
     color: #ecf0f1 !important;
     margin-bottom: 1.5rem;
@@ -496,6 +497,7 @@ body {
 .case-info,
 .results-section,
 .tasks-section,
+.treatment-section,
 .patterns-section {
     margin-bottom: 5rem;
 }
@@ -507,6 +509,202 @@ body {
 
 .diagnosis-card {
     margin-bottom: 4rem;
+}
+
+/* Treatment Laboratory Section */
+.treatment-description {
+    color: #ecf0f1;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.treatment-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.treatment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+@media (max-width: 900px) {
+    .treatment-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.parameter-control {
+    background: #34495e;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 4px solid #3498db;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.parameter-control:hover {
+    transform: translateY(-2px);
+    border-color: #2980b9;
+}
+
+.parameter-control label {
+    display: block;
+    color: #ecf0f1;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.param-slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: #2c3e50;
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+    transition: background 0.3s ease;
+}
+
+.param-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #3498db;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}
+
+.param-slider::-webkit-slider-thumb:hover {
+    background: #2980b9;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.5);
+}
+
+.param-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #3498db;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.param-value {
+    display: inline-block;
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    min-width: 60px;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.param-range {
+    color: #bdc3c7;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
+.treatment-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.treatment-actions .btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    min-width: 180px;
+}
+
+.treatment-feedback {
+    background: #34495e;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    border-left: 4px solid #f39c12;
+}
+
+.treatment-feedback h4 {
+    color: #ecf0f1;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.treatment-feedback.success {
+    border-left-color: #27ae60;
+}
+
+.treatment-feedback.warning {
+    border-left-color: #f39c12;
+}
+
+.treatment-feedback.error {
+    border-left-color: #e74c3c;
+}
+
+.feedback-content {
+    color: #ecf0f1;
+    line-height: 1.6;
+}
+
+.feedback-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.feedback-metric {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.75rem;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.feedback-metric .metric-label {
+    font-size: 0.9rem;
+    color: #bdc3c7;
+    margin-bottom: 0.25rem;
+}
+
+.feedback-metric .metric-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ecf0f1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .treatment-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .treatment-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .treatment-actions .btn {
+        min-width: 200px;
+    }
 }
 
 /* Footer */
