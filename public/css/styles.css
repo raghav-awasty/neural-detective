@@ -239,6 +239,8 @@ body {
     color: #ecf0f1;
     font-weight: 600;
     line-height: 1.4;
+    text-align: left;
+    display: block;
 }
 
 /* Results Section */
