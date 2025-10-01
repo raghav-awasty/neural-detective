@@ -1,5 +1,94 @@
 /* Neural Detective - Action Potential Simulator Styles */
 
+/* CSS Custom Properties for Theme System */
+:root {
+    /* Light theme colors (default) */
+    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --text-primary: #2c3e50;
+    --text-secondary: #34495e;
+    --text-muted: #7f8c8d;
+    --text-light: #95a5a6;
+    --text-contrast: #2c3e50;
+    
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --card-border: rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --card-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+    
+    --header-bg: rgba(255, 255, 255, 0.95);
+    --header-text: #2c3e50;
+    --header-subtitle: #7f8c8d;
+    
+    --story-card-bg: #3498db;
+    --story-card-text: #ffffff;
+    
+    --control-bg: #f8f9fa;
+    --control-text: #2c3e50;
+    --control-border: rgba(0, 0, 0, 0.15);
+    
+    --input-bg: #ffffff;
+    --input-text: #2c3e50;
+    --input-border: #ddd;
+    --input-focus: #3498db;
+    
+    --log-bg: #f8f9fa;
+    --log-text: #2c3e50;
+    --log-border: #e9ecef;
+    --log-spike: #e74c3c;
+    --log-normal: #6c757d;
+    
+    --accent-primary: #3498db;
+    --accent-success: #27ae60;
+    --accent-warning: #f39c12;
+    --accent-danger: #e74c3c;
+    --accent-secondary: #95a5a6;
+}
+
+/* Dark theme colors */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        --text-primary: #ecf0f1;
+        --text-secondary: #bdc3c7;
+        --text-muted: #95a5a6;
+        --text-light: #7f8c8d;
+        --text-contrast: #ecf0f1;
+        
+        --card-bg: rgba(52, 73, 94, 0.95);
+        --card-border: rgba(255, 255, 255, 0.1);
+        --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        --card-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+        
+        --header-bg: rgba(52, 73, 94, 0.95);
+        --header-text: #ecf0f1;
+        --header-subtitle: #bdc3c7;
+        
+        --story-card-bg: #34495e;
+        --story-card-text: #ecf0f1;
+        
+        --control-bg: #2c3e50;
+        --control-text: #ecf0f1;
+        --control-border: rgba(255, 255, 255, 0.15);
+        
+        --input-bg: #34495e;
+        --input-text: #ecf0f1;
+        --input-border: #4a5568;
+        --input-focus: #3498db;
+        
+        --log-bg: #2c3e50;
+        --log-text: #ecf0f1;
+        --log-border: #34495e;
+        --log-spike: #ff6b6b;
+        --log-normal: #bdc3c7;
+        
+        --accent-primary: #3498db;
+        --accent-success: #27ae60;
+        --accent-warning: #f39c12;
+        --accent-danger: #e74c3c;
+        --accent-secondary: #95a5a6;
+    }
+}
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -10,9 +99,10 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #ecf0f1;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: var(--text-primary);
+    background: var(--bg-gradient);
     min-height: 100vh;
+    transition: color 0.3s ease, background 0.3s ease;
 }
 
 .container {
@@ -23,28 +113,31 @@ body {
 
 /* Header Styles */
 .header {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--header-bg);
     backdrop-filter: blur(10px);
     padding: 1rem 0;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .header h1 {
-    color: #2c3e50;
+    color: var(--header-text);
     font-size: 2.5rem;
     font-weight: 700;
     text-align: center;
     margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
 }
 
 .header .subtitle {
     text-align: center;
-    color: #7f8c8d;
+    color: var(--header-subtitle);
     font-size: 1.1rem;
     font-weight: 300;
+    transition: color 0.3s ease;
 }
 
 /* Main Content */
@@ -54,19 +147,19 @@ body {
 
 /* Card Styles */
 .card-base {
-    background: white;
+    background: var(--card-bg);
     border-radius: 15px;
     padding: 2rem;
     margin-bottom: 5rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--card-border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
 .card-base:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--card-shadow-hover);
 }
 
 .story-card,
@@ -78,14 +171,37 @@ body {
 .diagnosis-card,
 .learning-card,
 .tasks-card,
-.patterns-card {
-    @extend .card-base;
+.patterns-card,
+.treatment-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 5rem;
+    box-shadow: var(--card-shadow);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+
+.story-card:hover,
+.panel-card:hover,
+.info-card:hover,
+.chart-card:hover,
+.analysis-card:hover,
+.log-card:hover,
+.diagnosis-card:hover,
+.learning-card:hover,
+.tasks-card:hover,
+.patterns-card:hover,
+.treatment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
 }
 
 /* Story Card */
 .story-card {
-    background: #34495e;
-    color: #ecf0f1;
+    background: var(--story-card-bg) !important;
+    color: var(--story-card-text) !important;
     text-align: center;
     border-radius: 20px;
     padding: 1rem 1rem;
@@ -95,12 +211,16 @@ body {
     font-size: 2rem;
     margin-bottom: 1rem;
     font-weight: 600;
+    color: var(--story-card-text) !important;
+    transition: color 0.3s ease;
 }
 
 .story-card p {
     font-size: 1.1rem;
     line-height: 1.8;
     margin-bottom: 1rem;
+    color: var(--story-card-text) !important;
+    transition: color 0.3s ease;
 }
 
 /* Control Panel */
@@ -119,23 +239,25 @@ body {
 
 .control-group label {
     font-weight: 600;
-    color: #ecf0f1;
+    color: var(--text-contrast);
     font-size: 1rem;
+    transition: color 0.3s ease;
 }
 
 .case-select {
     padding: 12px 16px;
-    border: 2px solid #ddd;
+    border: 2px solid var(--input-border);
     border-radius: 8px;
     font-size: 1rem;
-    background: white;
+    background: var(--input-bg);
+    color: var(--input-text);
     cursor: pointer;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
 }
 
 .case-select:focus {
     outline: none;
-    border-color: #3498db;
+    border-color: var(--input-focus);
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
 
@@ -143,9 +265,10 @@ body {
     width: 100%;
     height: 6px;
     border-radius: 5px;
-    background: #ddd;
+    background: var(--input-border);
     outline: none;
     cursor: pointer;
+    transition: background 0.3s ease;
 }
 
 .slider::-webkit-slider-thumb {
@@ -153,7 +276,7 @@ body {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3498db;
+    background: var(--accent-primary);
     cursor: pointer;
     transition: background 0.3s ease;
 }
@@ -162,10 +285,21 @@ body {
     background: #2980b9;
 }
 
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent-primary);
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s ease;
+}
+
 .slider-value {
     font-weight: 600;
-    color: #3498db;
+    color: var(--accent-primary);
     font-size: 1.1rem;
+    transition: color 0.3s ease;
 }
 
 /* Buttons */
@@ -222,27 +356,30 @@ body {
 }
 
 .case-param {
-    background: #f8f9fa;
+    background: var(--control-bg);
     padding: 1rem;
     border-radius: 8px;
-    border-left: 4px solid #3498db;
+    border-left: 4px solid var(--accent-primary);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .case-param .param-name {
     font-weight: 700;
-    color: #ecf0f1;
+    color: var(--text-primary);
     display: block;
     margin-bottom: 0.5rem;
     font-size: 1rem;
+    transition: color 0.3s ease;
 }
 
 .case-param .param-value {
     font-size: 1.1rem;
-    color: #ecf0f1;
+    color: var(--text-secondary);
     font-weight: 600;
     line-height: 1.4;
     text-align: left;
     display: block;
+    transition: color 0.3s ease;
 }
 
 /* Results Section */
@@ -273,9 +410,10 @@ body {
 
 .chart-card h3 {
     margin-bottom: 1rem;
-    color: #ecf0f1;
+    color: var(--text-primary);
     font-size: 1.3rem;
     font-weight: 700;
+    transition: color 0.3s ease;
 }
 
 .chart-container {
@@ -298,33 +436,36 @@ body {
 }
 
 .spike-stat {
-    background: #f8f9fa;
+    background: var(--control-bg);
     padding: 1rem;
     border-radius: 8px;
-    border-left: 4px solid #e74c3c;
+    border-left: 4px solid var(--accent-danger);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .spike-stat .stat-label {
     font-weight: 700;
-    color: #ecf0f1;
+    color: var(--text-primary);
     display: block;
     margin-bottom: 0.5rem;
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    transition: color 0.3s ease;
 }
 
 .spike-stat .stat-value {
     font-size: 1.6rem;
-    color: #e74c3c;
+    color: var(--accent-danger);
     font-weight: 800;
     line-height: 1.2;
+    transition: color 0.3s ease;
 }
 
 /* Simulation Log */
 .simulation-log {
-    background: #2c3e50;
-    color: #ecf0f1;
+    background: var(--log-bg);
+    color: var(--log-text);
     padding: 1.5rem;
     border-radius: 8px;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
@@ -332,73 +473,81 @@ body {
     line-height: 1.6;
     max-height: 320px;
     overflow-y: auto;
-    border: 2px solid #34495e;
+    border: 2px solid var(--log-border);
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .log-entry {
     margin-bottom: 0.6rem;
     padding: 0.3rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--control-border);
+    transition: border-color 0.3s ease;
 }
 
 .log-entry.spike {
-    color: #ff6b6b;
+    color: var(--log-spike);
     font-weight: bold;
     background: rgba(231, 76, 60, 0.1);
     padding: 0.5rem;
     border-radius: 4px;
     margin: 0.3rem 0;
+    transition: color 0.3s ease;
 }
 
 .log-entry.normal {
-    color: #bdc3c7;
+    color: var(--log-normal);
+    transition: color 0.3s ease;
 }
 
 /* Diagnosis Card */
 .diagnosis-content {
     margin-bottom: 2rem;
-    color: #ecf0f1 !important;
+    color: var(--text-primary) !important;
+    transition: color 0.3s ease;
 }
 
 .diagnosis-item {
-    background: #34495e;
+    background: var(--control-bg);
     padding: 1rem;
     border-radius: 8px;
     margin-bottom: 1rem;
-    color: #ecf0f1 !important;
+    color: var(--text-primary) !important;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .diagnosis-label {
     font-weight: 700;
-    color: #ecf0f1 !important;
+    color: var(--text-primary) !important;
     margin-bottom: 0.5rem;
     font-size: 1rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    transition: color 0.3s ease;
 }
 
 .diagnosis-value {
-    color: #ecf0f1 !important;
+    color: var(--text-secondary) !important;
     font-size: 1rem;
     line-height: 1.5;
     font-weight: 600;
+    transition: color 0.3s ease;
 }
 
 .diagnosis-value.critical {
-    color: #e74c3c !important;
+    color: var(--accent-danger) !important;
     font-weight: 700;
     font-size: 1.1rem;
 }
 
 .diagnosis-value.normal {
-    color: #27ae60 !important;
+    color: var(--accent-success) !important;
     font-weight: 700;
     font-size: 1.1rem;
 }
 
 .diagnosis-value.mild {
-    color: #f39c12 !important;
+    color: var(--accent-warning) !important;
     font-weight: 700;
     font-size: 1.1rem;
 }
@@ -416,10 +565,10 @@ body {
     align-items: center;
     gap: 1rem;
     padding: 1.5rem;
-    background: #f8f9fa;
+    background: var(--control-bg);
     border-radius: 8px;
-    border-left: 4px solid #3498db;
-    transition: transform 0.2s ease;
+    border-left: 4px solid var(--accent-primary);
+    transition: transform 0.2s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
 .task-item:hover {
@@ -427,7 +576,7 @@ body {
 }
 
 .task-number {
-    background: #3498db;
+    background: var(--accent-primary);
     color: white;
     width: 32px;
     height: 32px;
@@ -437,12 +586,14 @@ body {
     justify-content: center;
     font-weight: 700;
     flex-shrink: 0;
+    transition: background 0.3s ease;
 }
 
 .task-text {
-    color: #ecf0f1;
+    color: var(--text-primary);
     font-weight: 500;
     line-height: 1.5;
+    transition: color 0.3s ease;
 }
 
 /* Patterns Section */
@@ -453,11 +604,11 @@ body {
 }
 
 .pattern-item {
-    background: #f8f9fa;
+    background: var(--control-bg);
     padding: 1.5rem;
     border-radius: 8px;
-    border-left: 4px solid #f39c12;
-    transition: transform 0.2s ease;
+    border-left: 4px solid var(--accent-warning);
+    transition: transform 0.2s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
 .pattern-item:hover {
@@ -466,18 +617,20 @@ body {
 
 .pattern-header {
     font-weight: 600;
-    color: #ecf0f1;
+    color: var(--text-primary);
     margin-bottom: 0.75rem;
     font-size: 1.1rem;
+    transition: color 0.3s ease;
 }
 
 .pattern-description {
-    color: #ecf0f1;
+    color: var(--text-secondary);
     line-height: 1.5;
     font-weight: 500;
+    transition: color 0.3s ease;
 }
 
-/* Card headings - ensure all are light colored */
+/* Card headings - ensure proper contrast for both themes */
 .info-card h3,
 .analysis-card h3,
 .log-card h3,
@@ -486,13 +639,14 @@ body {
 .patterns-card h3,
 .treatment-card h3,
 .panel-card h3 {
-    color: #ecf0f1 !important;
+    color: var(--text-primary) !important;
     margin-bottom: 1.5rem;
     font-weight: 600;
     font-size: 1.3rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    transition: color 0.3s ease;
 }
 
 /* Section spacing - ensure proper separation between major sections */
@@ -517,12 +671,13 @@ body {
 
 /* Treatment Laboratory Section */
 .treatment-description {
-    color: #ecf0f1;
+    color: var(--text-primary);
     font-size: 1.1rem;
     line-height: 1.6;
     margin-bottom: 2rem;
     text-align: center;
     font-weight: 500;
+    transition: color 0.3s ease;
 }
 
 .treatment-controls {
@@ -544,11 +699,11 @@ body {
 }
 
 .parameter-control {
-    background: #34495e;
+    background: var(--control-bg);
     padding: 1.5rem;
     border-radius: 12px;
-    border-left: 4px solid #3498db;
-    transition: transform 0.2s ease, border-color 0.2s ease;
+    border-left: 4px solid var(--accent-primary);
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.3s ease;
 }
 
 .parameter-control:hover {
@@ -558,17 +713,18 @@ body {
 
 .parameter-control label {
     display: block;
-    color: #ecf0f1;
+    color: var(--text-primary);
     font-weight: 700;
     margin-bottom: 1rem;
     font-size: 1.1rem;
+    transition: color 0.3s ease;
 }
 
 .param-slider {
     width: 100%;
     height: 8px;
     border-radius: 5px;
-    background: #2c3e50;
+    background: var(--input-border);
     outline: none;
     cursor: pointer;
     margin-bottom: 0.75rem;
@@ -580,7 +736,7 @@ body {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: #3498db;
+    background: var(--accent-primary);
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
@@ -596,7 +752,7 @@ body {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: #3498db;
+    background: var(--accent-primary);
     cursor: pointer;
     border: none;
     transition: all 0.3s ease;
@@ -604,8 +760,8 @@ body {
 
 .param-value {
     display: inline-block;
-    background: #2c3e50;
-    color: #ecf0f1;
+    background: var(--log-bg);
+    color: var(--text-primary);
     padding: 0.5rem 1rem;
     border-radius: 6px;
     font-weight: 700;
@@ -613,13 +769,15 @@ body {
     min-width: 60px;
     text-align: center;
     margin-bottom: 0.5rem;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .param-range {
-    color: #bdc3c7;
+    color: var(--text-muted);
     font-size: 0.9rem;
     font-style: italic;
     margin-top: 0.5rem;
+    transition: color 0.3s ease;
 }
 
 .treatment-actions {
@@ -636,37 +794,40 @@ body {
 }
 
 .treatment-feedback {
-    background: #34495e;
+    background: var(--control-bg);
     border-radius: 8px;
     padding: 1.5rem;
     margin-top: 2rem;
-    border-left: 4px solid #f39c12;
+    border-left: 4px solid var(--accent-warning);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .treatment-feedback h4 {
-    color: #ecf0f1;
+    color: var(--text-primary);
     margin-bottom: 1rem;
     font-size: 1.2rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    transition: color 0.3s ease;
 }
 
 .treatment-feedback.success {
-    border-left-color: #27ae60;
+    border-left-color: var(--accent-success);
 }
 
 .treatment-feedback.warning {
-    border-left-color: #f39c12;
+    border-left-color: var(--accent-warning);
 }
 
 .treatment-feedback.error {
-    border-left-color: #e74c3c;
+    border-left-color: var(--accent-danger);
 }
 
 .feedback-content {
-    color: #ecf0f1;
+    color: var(--text-primary);
     line-height: 1.6;
+    transition: color 0.3s ease;
 }
 
 .feedback-metrics {
@@ -677,22 +838,25 @@ body {
 }
 
 .feedback-metric {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--card-border);
     padding: 0.75rem;
     border-radius: 6px;
     text-align: center;
+    transition: background 0.3s ease;
 }
 
 .feedback-metric .metric-label {
     font-size: 0.9rem;
-    color: #bdc3c7;
+    color: var(--text-muted);
     margin-bottom: 0.25rem;
+    transition: color 0.3s ease;
 }
 
 .feedback-metric .metric-value {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #ecf0f1;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 /* Responsive adjustments */
@@ -713,11 +877,12 @@ body {
 
 /* Footer */
 .footer {
-    background: rgba(44, 62, 80, 0.95);
-    color: white;
+    background: var(--control-bg);
+    color: var(--text-primary);
     text-align: center;
     padding: 2rem 0;
     margin-top: 5rem;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Animations */
@@ -817,31 +982,44 @@ body {
     }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
+/* Enhanced responsive design for better theme compatibility */
+@media (max-width: 768px) {
+    :root {
+        /* Adjust spacing for mobile */
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+    
     body {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        font-size: 14px;
     }
     
-    .card-base {
-        background: #34495e;
-        color: #ecf0f1;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .header {
-        background: rgba(52, 73, 94, 0.95);
-    }
-    
-    .header h1 {
-        color: #ecf0f1;
+    .story-card h2 {
+        font-size: 1.8rem;
     }
     
     .case-param,
     .spike-stat,
     .task-item,
     .pattern-item {
-        background: #2c3e50;
-        color: #ecf0f1;
+        padding: 1rem;
+    }
+    
+    .treatment-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .parameter-control {
+        padding: 1rem;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    /* Dark theme styles are already defined in :root variables above */
+    /* This ensures proper fallback for older browsers */
+    .chart-container {
+        /* Ensure charts have proper contrast in dark mode */
+        filter: brightness(1.1) contrast(0.95);
     }
 }
